@@ -1,4 +1,4 @@
-package com.abdullah.moviereviewapp.feature.extensions
+package com.abdullah.moviereviewapp.feature.utils.extensions
 
 import android.net.Uri
 import android.widget.ImageView

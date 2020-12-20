@@ -1,40 +1,79 @@
 package com.abdullah.moviereviewapp.feature.presentation.movielist
 
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.abdullah.moviereviewapp.BuildConfig
+import androidx.lifecycle.Observer
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.abdullah.moviereviewapp.base.presentation.BaseViewModel
 import com.abdullah.moviereviewapp.feature.data.enum.CategoryType
-import com.abdullah.moviereviewapp.feature.data.response.MovieListResponse
 import com.abdullah.moviereviewapp.feature.domain.interactor.GetMovieListUseCase
 import com.abdullah.moviereviewapp.feature.presentation.movielist.list.model.MovieListItem
-import kotlinx.coroutines.launch
+import com.abdullah.moviereviewapp.feature.presentation.movielist.pagination.MovieListDataSourceFactory
+import com.abdullah.moviereviewapp.feature.utils.Constants.ITEM_SIZE
 import javax.inject.Inject
 
+
 class MovieListViewModel @Inject constructor(private val getMovieListUseCase: GetMovieListUseCase) :
-    BaseViewModel() {
+    BaseViewModel(), Observer<PagedList<MovieListItem>> {
 
-    private val listMutableLiveData = MutableLiveData<List<MovieListItem>>()
-    val listLiveData: LiveData<List<MovieListItem>> get() = listMutableLiveData
+    private val listMutableLiveData = MutableLiveData<PagedList<MovieListItem>>()
+    val listLiveData: LiveData<PagedList<MovieListItem>> get() = listMutableLiveData
 
-    fun getMovieList(type: CategoryType = CategoryType.POPULAR) {
-        viewModelScope.launch {
-            getMovieListUseCase.execute(
-                GetMovieListObserver(this@MovieListViewModel),
-                GetMovieListUseCase.Params(BuildConfig.CONSUMER_KEY, 1, type)
-            )
-        }
+    private val observer = MovieListObserver(this)
+
+    var pagedListLiveData: LiveData<PagedList<MovieListItem>>
+    private var sourceFactory = MovieListDataSourceFactory(
+        getMovieListUseCase,
+        this,
+        baseResponseObserver = observer
+    )
+
+    private val config by lazy {
+        PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setPageSize(ITEM_SIZE)
+            .build()
     }
 
-    fun handleSuccess(movieListResp: MovieListResponse) {
-        this.listMutableLiveData.value = movieListResp.results.map {
-            MovieListItem(
-                "https://image.tmdb.org/t/p/w500${it.posterPath}",
-                it.originalTitle,
-                it.releaseDate
+    init {
+        pagedListLiveData = LivePagedListBuilder(
+            sourceFactory, config
+        ).build()
+    }
+
+    fun loadItems(viewLifecycleOwner: LifecycleOwner) {
+        pagedListLiveData.observe(viewLifecycleOwner, this)
+    }
+
+    fun loadItemsByCategory(viewLifecycleOwner: LifecycleOwner, type: CategoryType) {
+        replaceSubscription(viewLifecycleOwner, type)
+        loadItems(viewLifecycleOwner)
+    }
+
+    private fun replaceSubscription(
+        lifecycleOwner: LifecycleOwner?,
+        type: CategoryType? = null
+    ) {
+        if (lifecycleOwner != null) {
+            pagedListLiveData.removeObservers(lifecycleOwner)
+        }
+        sourceFactory = if (type == null) {
+            MovieListDataSourceFactory(getMovieListUseCase, this, baseResponseObserver = observer)
+        } else {
+            MovieListDataSourceFactory(
+                getMovieListUseCase,
+                this,
+                type,
+                baseResponseObserver = observer
             )
         }
+        pagedListLiveData = LivePagedListBuilder<Int, MovieListItem>(sourceFactory, config).build()
+    }
+
+    override fun onChanged(pagedList: PagedList<MovieListItem>?) {
+        this.listMutableLiveData.value = pagedList
     }
 
 }

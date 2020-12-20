@@ -5,15 +5,12 @@ import com.abdullah.moviereviewapp.base.data.model.DialogBoxModel
 import com.abdullah.moviereviewapp.base.data.model.DialogButton
 import com.abdullah.moviereviewapp.base.data.network.BaseResponseObserver
 import com.abdullah.moviereviewapp.base.data.network.Status
+import com.abdullah.moviereviewapp.feature.utils.Constants.OK
 import retrofit2.Response
 import timber.log.Timber
 
 abstract class BaseRequestUseCase<T : BaseResponse, Params> :
     BaseUseCase() {
-
-    companion object {
-        private const val OK = "OK"
-    }
 
     abstract suspend fun networkCall(params: Params): Response<T>
 
@@ -54,6 +51,12 @@ abstract class BaseRequestUseCase<T : BaseResponse, Params> :
                 )
             )
         }
+    }
+
+    suspend fun executeWithPaging(
+        params: Params
+    ): Response<T> {
+        return networkCall(params)
     }
 
     private fun <T : BaseResponse> error(dialogBoxModel: DialogBoxModel): Status<T> {

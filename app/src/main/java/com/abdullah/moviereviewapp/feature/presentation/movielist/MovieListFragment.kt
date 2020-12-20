@@ -32,23 +32,26 @@ class MovieListFragment : BaseFragment<MovieListViewModel, FragmentMovieListBind
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBinding().rvMovie.layoutManager = GridLayoutManager(context, 3)
-        getBinding().rvMovie.setHasFixedSize(true)
-        getBinding().rvMovie.adapter = listAdapter
-        getBinding().clCategory.setOnClickListener {
-            SelectableBottomSheetDialog.newInstance(
-                arrayListOf(
-                    CategoryType.POPULAR.let { SelectableListItem(it, it.text) },
-                    CategoryType.UP_COMING.let { SelectableListItem(it, it.text) },
-                    CategoryType.NOW_PLAYING.let { SelectableListItem(it, it.text) },
-                    CategoryType.TOP_RATED.let { SelectableListItem(it, it.text) }
-                )
-            ) {
-                getBinding().tvDrawer.text = it.title
-                getViewModel().getMovieList(it.id)
-            }.show(childFragmentManager, "TAG")
+        getBinding().apply {
+            tvDrawer.text = CategoryType.POPULAR.text
+            rvMovie.layoutManager = GridLayoutManager(context, 3)
+            rvMovie.setHasFixedSize(true)
+            rvMovie.adapter = listAdapter
+            clCategory.setOnClickListener {
+                SelectableBottomSheetDialog.newInstance(
+                    arrayListOf(
+                        CategoryType.POPULAR.let { SelectableListItem(it, it.text) },
+                        CategoryType.UP_COMING.let { SelectableListItem(it, it.text) },
+                        CategoryType.NOW_PLAYING.let { SelectableListItem(it, it.text) },
+                        CategoryType.TOP_RATED.let { SelectableListItem(it, it.text) }
+                    )
+                ) {
+                    tvDrawer.text = it.title
+                    viewModel.loadItemsByCategory(viewLifecycleOwner, it.id)
+                }.show(childFragmentManager, this::class.java.simpleName)
+            }
         }
-        getViewModel().getMovieList()
+        getViewModel().loadItems(this)
     }
 
     override fun observeLiveData() {
@@ -62,5 +65,6 @@ class MovieListFragment : BaseFragment<MovieListViewModel, FragmentMovieListBind
     override fun bindViewModel(dataBinding: FragmentMovieListBinding) {
         dataBinding.viewModel = getViewModel()
     }
+
 
 }

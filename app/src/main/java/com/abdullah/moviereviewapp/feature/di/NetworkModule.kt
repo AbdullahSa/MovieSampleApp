@@ -1,6 +1,7 @@
 package com.abdullah.moviereviewapp.feature.di
 
 import com.abdullah.moviereviewapp.feature.data.MovieService
+import com.abdullah.moviereviewapp.feature.utils.Constants.BASE_URL
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -24,7 +25,7 @@ object NetworkModule {
     fun provideRetrofit(gson: Gson): Retrofit =
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl("https://api.themoviedb.org/3/")
+            .baseUrl(BASE_URL)
             .build()
 
 
