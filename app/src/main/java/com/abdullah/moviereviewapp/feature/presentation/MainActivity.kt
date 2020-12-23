@@ -1,10 +1,12 @@
 package com.abdullah.moviereviewapp.feature.presentation
 
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.abdullah.moviereviewapp.R
 import com.abdullah.moviereviewapp.base.presentation.BaseActivity
 import com.abdullah.moviereviewapp.base.util.LoadingProgressDialog
 import com.abdullah.moviereviewapp.databinding.ActivityMainBinding
+import com.abdullah.moviereviewapp.feature.navigation.RouteNavHost
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -35,5 +37,4 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     override fun bindViewModel(dataBinding: ActivityMainBinding) {
         // NOTHING
     }
-
 }

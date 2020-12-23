@@ -16,8 +16,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_movie"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/zero_size"
+            android:layout_height="@dimen/zero_size"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +29,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_category"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_size"
             android:layout_height="wrap_content"
             android:background="@drawable/gradient_black_background"
             android:visibility="gone"
@@ -41,7 +41,7 @@
                 android:id="@+id/tv_drawer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="@dimen/small_size"
                 android:drawableEnd="@drawable/ic_arrow_drop_down"
                 android:fontFamily="@font/new_rocker"
                 android:gravity="center"

@@ -1,33 +1,36 @@
 package com.abdullah.moviereviewapp.feature.data.remotesource
 
-import com.abdullah.moviereviewapp.base.data.model.BaseRequest
-import com.abdullah.moviereviewapp.base.data.model.DialogBoxModel
 import com.abdullah.moviereviewapp.feature.data.MovieService
 import com.abdullah.moviereviewapp.feature.data.enum.CategoryType
+import com.abdullah.moviereviewapp.feature.data.request.MovieDetailRequest
+import com.abdullah.moviereviewapp.feature.data.request.MovieListRequest
+import com.abdullah.moviereviewapp.feature.data.response.MovieDetailResponse
 import com.abdullah.moviereviewapp.feature.data.response.MovieListResponse
-import okhttp3.MediaType
-import okhttp3.ResponseBody
 import retrofit2.Response
 import javax.inject.Inject
 
 class MovieRemoteDataSource @Inject constructor(private val movieService: MovieService) {
-    suspend fun getMovieListResponse(baseRequest: BaseRequest): Response<MovieListResponse> =
-        when (baseRequest.type) {
+    suspend fun getMovieListResponse(request: MovieListRequest): Response<MovieListResponse> =
+        when (request.type) {
             CategoryType.POPULAR -> movieService.getPopularMovieList(
-                baseRequest.apiKey,
-                baseRequest.page
+                request.apiKey,
+                request.page
             )
             CategoryType.UP_COMING -> movieService.getUpcomingMovieList(
-                baseRequest.apiKey,
-                baseRequest.page
+                request.apiKey,
+                request.page
             )
             CategoryType.NOW_PLAYING -> movieService.getTheLatestMovieList(
-                baseRequest.apiKey,
-                baseRequest.page
+                request.apiKey,
+                request.page
             )
             CategoryType.TOP_RATED -> movieService.getTopRatedMovieList(
-                baseRequest.apiKey,
-                baseRequest.page
+                request.apiKey,
+                request.page
             )
         }
+
+
+    suspend fun getMovieDetailResponse(baseRequest: MovieDetailRequest): Response<MovieDetailResponse> =
+        movieService.getMovieDetail(baseRequest.movieId, baseRequest.apiKey)
 }

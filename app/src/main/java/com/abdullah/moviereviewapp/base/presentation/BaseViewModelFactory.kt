@@ -6,6 +6,7 @@ import java.lang.IllegalArgumentException
 
 abstract class BaseViewModelFactory<ViewModel : BaseViewModel> : ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
         val viewModel = provideViewModel()
 
@@ -14,7 +15,7 @@ abstract class BaseViewModelFactory<ViewModel : BaseViewModel> : ViewModelProvid
             return viewModel as T
         }
 
-        return throw IllegalArgumentException("Unknown ViewModel Class ${modelClass.name}")
+        throw IllegalArgumentException("Unknown ViewModel Class ${modelClass.name}")
     }
 
     abstract fun provideViewModel(): ViewModel

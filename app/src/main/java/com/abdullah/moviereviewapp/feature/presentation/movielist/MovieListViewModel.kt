@@ -12,10 +12,9 @@ import com.abdullah.moviereviewapp.feature.domain.interactor.GetMovieListUseCase
 import com.abdullah.moviereviewapp.feature.presentation.movielist.list.model.MovieListItem
 import com.abdullah.moviereviewapp.feature.presentation.movielist.pagination.MovieListDataSourceFactory
 import com.abdullah.moviereviewapp.feature.utils.Constants.ITEM_SIZE
-import javax.inject.Inject
 
 
-class MovieListViewModel @Inject constructor(private val getMovieListUseCase: GetMovieListUseCase) :
+class MovieListViewModel constructor(private val getMovieListUseCase: GetMovieListUseCase) :
     BaseViewModel(), Observer<PagedList<MovieListItem>> {
 
     private val listMutableLiveData = MutableLiveData<PagedList<MovieListItem>>()

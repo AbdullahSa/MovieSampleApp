@@ -1,17 +1,16 @@
 package com.abdullah.moviereviewapp.feature.domain.interactor
 
-import com.abdullah.moviereviewapp.base.data.model.BaseRequest
 import com.abdullah.moviereviewapp.base.domain.BaseRequestUseCase
 import com.abdullah.moviereviewapp.feature.data.enum.CategoryType
+import com.abdullah.moviereviewapp.feature.data.request.MovieListRequest
 import com.abdullah.moviereviewapp.feature.data.response.MovieListResponse
 import com.abdullah.moviereviewapp.feature.domain.MovieRepository
-import javax.inject.Inject
 
-class GetMovieListUseCase @Inject constructor(private val repository: MovieRepository) :
+class GetMovieListUseCase constructor(private val repository: MovieRepository) :
     BaseRequestUseCase<MovieListResponse, GetMovieListUseCase.Params>() {
 
     override suspend fun networkCall(params: Params) = params.run {
-        repository.getMovieList(BaseRequest(apiKey, page, type))
+        repository.getMovieList(MovieListRequest(type, apiKey, page))
     }
 
     class Params(

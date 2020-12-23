@@ -5,8 +5,8 @@ import com.abdullah.moviereviewapp.base.presentation.list.BasePagedListRecyclerV
 import com.abdullah.moviereviewapp.databinding.ItemViewMovieBinding
 import com.abdullah.moviereviewapp.feature.presentation.movielist.list.model.MovieListItem
 
-class MovieListAdapter :
-    BasePagedListRecyclerViewAdapter<MovieListItem, ItemViewMovieBinding>(R.layout.item_view_movie) {
+class MovieListAdapter(onItemClicked: (MovieListItem) -> Unit) :
+    BasePagedListRecyclerViewAdapter<MovieListItem, ItemViewMovieBinding>(R.layout.item_view_movie, onItemClicked) {
 
     override fun bind(binding: ItemViewMovieBinding, item: MovieListItem) {
         binding.data = item

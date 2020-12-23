@@ -23,7 +23,7 @@ abstract class BaseResponseObserver<T : BaseResponse>(private val baseViewModel:
         if (statusData.dialogBox == null) {
             onSuccess(statusData)
         } else {
-            handleDialogBoxes(statusData.dialogBox, true)
+            handleDialogBoxes(statusData.dialogBox)
         }
     }
 
@@ -32,11 +32,11 @@ abstract class BaseResponseObserver<T : BaseResponse>(private val baseViewModel:
         if (statusData.dialogBox == null) {
             onError(statusData)
         } else {
-            handleDialogBoxes(statusData.dialogBox, false)
+            handleDialogBoxes(statusData.dialogBox)
         }
     }
 
-    private fun handleDialogBoxes(dialogBox: DialogBoxModel?, isFromSuccess: Boolean) {
+    private fun handleDialogBoxes(dialogBox: DialogBoxModel?) {
         dialogBox?.let {
             baseViewModel.openDialogBoxModel(it)
         }

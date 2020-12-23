@@ -25,6 +25,7 @@ class MovieListDataSource(
     private val baseResponseObserver: BaseResponseObserver<MovieListResponse>
 ) : PageKeyedDataSource<Int, MovieListItem>() {
 
+    @Suppress("UNREACHABLE_CODE")
     override fun loadInitial(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, MovieListItem>
@@ -50,7 +51,8 @@ class MovieListDataSource(
                             MovieListItem(
                                 "${BASE_IMAGE_URL}${posterPath}",
                                 originalTitle.toString(),
-                                releaseDate.toString()
+                                releaseDate.toString(),
+                                id as Int
                             )
                         }
                     },
@@ -91,7 +93,8 @@ class MovieListDataSource(
                             MovieListItem(
                                 "${BASE_IMAGE_URL}${posterPath}",
                                 originalTitle.toString(),
-                                releaseDate.toString()
+                                releaseDate.toString(),
+                                id as Int
                             )
                         }
                     },

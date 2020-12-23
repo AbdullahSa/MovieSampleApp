@@ -48,6 +48,8 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
                 }
             }
         }
+
+        observeNavigationEvent()
     }
 
     override fun onCreateView(
@@ -73,8 +75,8 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
         MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
             .setTitle(dialogBox.title)
             .setMessage(dialogBox.message)
-            .setPositiveButton(dialogBox.dialogButton?.text) { dialogInterface, i -> dialogInterface.dismiss() }
-            .setNegativeButton(dialogBox.secondDialogButton?.text) { dialogInterface, i -> dialogInterface.dismiss() }
+            .setPositiveButton(dialogBox.dialogButton?.text) { dialogInterface, _ -> dialogInterface.dismiss() }
+            .setNegativeButton(dialogBox.secondDialogButton?.text) { dialogInterface, _ -> dialogInterface.dismiss() }
             .show()
     }
 
@@ -91,7 +93,7 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
     }
 
     protected open fun onReturnToPreviousScreen() {
-        findNavController().popBackStack()
+        findNavController().navigateUp()
     }
 
 }

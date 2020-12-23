@@ -13,4 +13,5 @@ sealed class RouteNavHost(@IdRes graphId: Int) : BaseRouteNavHost(graphId) {
 // For Fragments to navigate
 sealed class MoviePagesDestination(@IdRes destination: Int) : BaseRouteDestination(destination) {
     object MovieListPage : MoviePagesDestination(R.id.movieListFragment)
+    object MovieDetailPage : MoviePagesDestination(R.id.movieDetailFragment)
 }

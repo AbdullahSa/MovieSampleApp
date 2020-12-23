@@ -9,8 +9,10 @@ import com.abdullah.moviereviewapp.R
 import com.abdullah.moviereviewapp.base.presentation.BaseFragment
 import com.abdullah.moviereviewapp.databinding.FragmentMovieListBinding
 import com.abdullah.moviereviewapp.feature.data.enum.CategoryType
+import com.abdullah.moviereviewapp.feature.navigation.MoviePagesDestination
 import com.abdullah.moviereviewapp.feature.presentation.bottomsheet.SelectableBottomSheetDialog
 import com.abdullah.moviereviewapp.feature.presentation.bottomsheet.SelectableListItem
+import com.abdullah.moviereviewapp.feature.presentation.moviedetail.MovieDetailFragment.Companion.EXTRA_MOVIE_ID
 import com.abdullah.moviereviewapp.feature.presentation.movielist.list.MovieListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -22,7 +24,11 @@ class MovieListFragment : BaseFragment<MovieListViewModel, FragmentMovieListBind
     lateinit var movieListViewModelFactory: MovieListViewModelFactory
 
     private val listAdapter by lazy {
-        MovieListAdapter()
+        MovieListAdapter {
+            getViewModel().navigateTo(MoviePagesDestination.MovieDetailPage, Bundle().apply {
+                putInt(EXTRA_MOVIE_ID, it.id)
+            }, false)
+        }
     }
 
     override fun provideLayoutResId() = R.layout.fragment_movie_list
@@ -47,7 +53,7 @@ class MovieListFragment : BaseFragment<MovieListViewModel, FragmentMovieListBind
                     )
                 ) {
                     tvDrawer.text = it.title
-                    viewModel.loadItemsByCategory(viewLifecycleOwner, it.id)
+                    viewModel?.loadItemsByCategory(viewLifecycleOwner, it.id)
                 }.show(childFragmentManager, this::class.java.simpleName)
             }
         }
@@ -65,6 +71,4 @@ class MovieListFragment : BaseFragment<MovieListViewModel, FragmentMovieListBind
     override fun bindViewModel(dataBinding: FragmentMovieListBinding) {
         dataBinding.viewModel = getViewModel()
     }
-
-
 }

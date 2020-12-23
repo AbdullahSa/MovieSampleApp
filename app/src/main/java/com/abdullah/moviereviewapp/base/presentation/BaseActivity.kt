@@ -58,8 +58,8 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
         MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
             .setTitle(dialogBox.title)
             .setMessage(dialogBox.message)
-            .setPositiveButton(dialogBox.dialogButton?.text) { dialogInterface, i -> dialogInterface.dismiss() }
-            .setNegativeButton(dialogBox.secondDialogButton?.text) { dialogInterface, i -> dialogInterface.dismiss() }
+            .setPositiveButton(dialogBox.dialogButton?.text) { dialogInterface, _ -> dialogInterface.dismiss() }
+            .setNegativeButton(dialogBox.secondDialogButton?.text) { dialogInterface, _ -> dialogInterface.dismiss() }
             .show()
     }
 }
