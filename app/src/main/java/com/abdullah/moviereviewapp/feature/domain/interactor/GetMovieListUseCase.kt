@@ -6,7 +6,7 @@ import com.abdullah.moviereviewapp.feature.data.request.MovieListRequest
 import com.abdullah.moviereviewapp.feature.data.response.MovieListResponse
 import com.abdullah.moviereviewapp.feature.domain.MovieRepository
 
-class GetMovieListUseCase constructor(private val repository: MovieRepository) :
+open class GetMovieListUseCase constructor(private val repository: MovieRepository) :
     BaseRequestUseCase<MovieListResponse, GetMovieListUseCase.Params>() {
 
     override suspend fun networkCall(params: Params) = params.run {

@@ -4,7 +4,7 @@ import com.abdullah.moviereviewapp.base.domain.BaseUseCase
 import com.abdullah.moviereviewapp.base.presentation.BaseViewModelFactory
 import com.abdullah.moviereviewapp.feature.domain.interactor.GetMovieListUseCase
 
-class MovieListViewModelFactory constructor(private val getMovieListUseCase: GetMovieListUseCase) :
+class MovieListViewModelFactory constructor(val getMovieListUseCase: GetMovieListUseCase) :
     BaseViewModelFactory<MovieListViewModel>() {
 
     override fun provideViewModel() = MovieListViewModel(getMovieListUseCase)

@@ -28,7 +28,7 @@ class MovieDetailViewModel(private val getMovieDetailUseCase: GetMovieDetailUseC
         }
     }
 
-    fun handleResponse(viewEntity: MovieDetailResponse.ViewEntity) = viewEntity.run {
+    fun handleResponse(viewEntity: MovieDetailResponse.ViewEntity?) = viewEntity?.run {
         observableImageUrl.set("${Constants.BASE_IMAGE_URL}${posterPath}")
         observableTitle.set(originalTitle)
         observableDescription.set(overView)

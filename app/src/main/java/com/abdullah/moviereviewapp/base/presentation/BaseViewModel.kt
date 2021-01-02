@@ -11,7 +11,7 @@ import com.abdullah.moviereviewapp.base.navigation.*
 
 open class BaseViewModel : ViewModel() {
 
-    private var useCases: Array<BaseUseCase> = arrayOf()
+    var useCases: Array<BaseUseCase> = arrayOf()
 
     private val dialogBoxMutableLiveData = MutableLiveData<DialogBoxModel>()
     val dialogBoxLiveData: LiveData<DialogBoxModel> get() = dialogBoxMutableLiveData
@@ -22,7 +22,7 @@ open class BaseViewModel : ViewModel() {
     private val navigationMutableLiveData = MutableLiveData<Event<NavController.() -> Any>>()
     val navigationLiveData: LiveData<Event<NavController.() -> Any>> get() = navigationMutableLiveData
 
-    public fun addUseCases(useCases: Array<BaseUseCase>) {
+    fun addUseCases(useCases: Array<BaseUseCase>) {
         this.useCases = useCases
     }
 
