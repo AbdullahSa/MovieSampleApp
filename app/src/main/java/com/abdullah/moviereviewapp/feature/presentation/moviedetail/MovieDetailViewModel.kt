@@ -4,7 +4,6 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.abdullah.moviereviewapp.BuildConfig
 import com.abdullah.moviereviewapp.base.presentation.BaseViewModel
-import com.abdullah.moviereviewapp.feature.data.response.Movie
 import com.abdullah.moviereviewapp.feature.data.response.MovieDetailResponse
 import com.abdullah.moviereviewapp.feature.domain.interactor.GetMovieDetailUseCase
 import com.abdullah.moviereviewapp.feature.utils.Constants

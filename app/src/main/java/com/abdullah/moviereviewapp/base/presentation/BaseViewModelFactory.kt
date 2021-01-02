@@ -2,7 +2,6 @@ package com.abdullah.moviereviewapp.base.presentation
 
 import androidx.lifecycle.ViewModelProvider
 import com.abdullah.moviereviewapp.base.domain.BaseUseCase
-import java.lang.IllegalArgumentException
 
 abstract class BaseViewModelFactory<ViewModel : BaseViewModel> : ViewModelProvider.Factory {
 

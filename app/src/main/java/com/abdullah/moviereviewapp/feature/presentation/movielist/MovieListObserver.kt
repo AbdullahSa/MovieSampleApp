@@ -8,8 +8,10 @@ class MovieListObserver(viewModel: MovieListViewModel) :
     BaseResponseObserver<MovieListResponse>(viewModel) {
 
     override fun onSuccess(statusData: Status<MovieListResponse>) {
+        // Do Nothing
     }
 
     override fun onError(statusData: Status<MovieListResponse>) {
+        // Do Nothing
     }
 }

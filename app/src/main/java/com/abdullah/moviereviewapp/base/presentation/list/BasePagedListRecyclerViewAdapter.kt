@@ -6,7 +6,6 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.ListAdapter
 import com.abdullah.moviereviewapp.base.presentation.list.model.BaseListItem
 
 abstract class BasePagedListRecyclerViewAdapter<Item : BaseListItem<Item>, DB : ViewDataBinding>(

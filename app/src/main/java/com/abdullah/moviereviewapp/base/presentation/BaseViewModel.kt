@@ -7,7 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.abdullah.moviereviewapp.base.data.model.DialogBoxModel
 import com.abdullah.moviereviewapp.base.domain.BaseUseCase
-import com.abdullah.moviereviewapp.base.navigation.*
+import com.abdullah.moviereviewapp.base.navigation.BaseRouteDestination
+import com.abdullah.moviereviewapp.base.navigation.BaseRouteNavHost
+import com.abdullah.moviereviewapp.base.navigation.Event
+import com.abdullah.moviereviewapp.base.navigation.defaultNavOptions
 
 open class BaseViewModel : ViewModel() {
 

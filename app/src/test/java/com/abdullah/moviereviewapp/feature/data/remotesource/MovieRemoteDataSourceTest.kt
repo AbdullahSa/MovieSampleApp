@@ -4,10 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.abdullah.moviereviewapp.CoroutineTestRule
 import com.abdullah.moviereviewapp.feature.data.MovieService
 import com.abdullah.moviereviewapp.feature.data.enum.CategoryType
-import com.abdullah.moviereviewapp.feature.data.remotesource.MovieRemoteDataSource
 import com.abdullah.moviereviewapp.feature.data.request.MovieDetailRequest
 import com.abdullah.moviereviewapp.feature.data.request.MovieListRequest
-import com.abdullah.moviereviewapp.feature.domain.MovieRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
