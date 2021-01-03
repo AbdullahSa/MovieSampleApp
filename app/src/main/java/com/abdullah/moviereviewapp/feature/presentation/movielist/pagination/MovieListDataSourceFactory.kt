@@ -3,7 +3,7 @@ package com.abdullah.moviereviewapp.feature.presentation.movielist.pagination
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
-import com.abdullah.moviereviewapp.base.data.network.BaseResponseObserver
+import com.abdullah.moviereviewapp.base.data.network.ResponseObserver
 import com.abdullah.moviereviewapp.feature.data.enum.CategoryType
 import com.abdullah.moviereviewapp.feature.data.response.MovieListResponse
 import com.abdullah.moviereviewapp.feature.domain.interactor.GetMovieListUseCase
@@ -15,7 +15,7 @@ class MovieListDataSourceFactory(
     private val getMovieListUseCase: GetMovieListUseCase,
     private val viewModel: MovieListViewModel,
     val type: CategoryType = CategoryType.POPULAR,
-    val baseResponseObserver: BaseResponseObserver<MovieListResponse>
+    val responseObserver: ResponseObserver<MovieListResponse>
 ) : DataSource.Factory<Int, MovieListItem>() {
 
     private val liveData: MutableLiveData<PageKeyedDataSource<Int, MovieListItem>> =
@@ -23,7 +23,7 @@ class MovieListDataSourceFactory(
 
     override fun create(): DataSource<Int, MovieListItem> {
         val dataSource =
-            MovieListDataSource(getMovieListUseCase, viewModel, type, baseResponseObserver)
+            MovieListDataSource(getMovieListUseCase, viewModel, type, responseObserver)
         liveData.postValue(dataSource)
         return dataSource
     }

@@ -3,7 +3,7 @@ package com.abdullah.moviereviewapp.base.domain
 import com.abdullah.moviereviewapp.base.data.model.BaseResponse
 import com.abdullah.moviereviewapp.base.data.model.DialogBoxModel
 import com.abdullah.moviereviewapp.base.data.model.DialogButton
-import com.abdullah.moviereviewapp.base.data.network.BaseResponseObserver
+import com.abdullah.moviereviewapp.base.data.network.ResponseObserver
 import com.abdullah.moviereviewapp.base.data.network.Status
 import com.abdullah.moviereviewapp.feature.utils.Constants.OK
 import retrofit2.Response
@@ -15,21 +15,21 @@ abstract class BaseRequestUseCase<T : BaseResponse, Params> :
     abstract suspend fun networkCall(params: Params): Response<T>
 
     suspend fun execute(
-        baseResponseObserver: BaseResponseObserver<T>,
+        responseObserver: ResponseObserver<T>,
         params: Params
     ) {
         try {
-            baseResponseObserver.handleResponse(Status.loading(null))
+            responseObserver.loading(Status.Loading)
             val response = networkCall(params)
             if (response.isSuccessful) {
                 response.body()?.let { body ->
-                    baseResponseObserver.handleResponse(
-                        Status.success(body, body.dialogBoxes?.get(0))
+                    responseObserver.success(
+                        Status.Success(body, body.dialogBoxes?.get(0))
                     )
                 }
             } else {
-                baseResponseObserver.handleResponse(
-                    error(
+                responseObserver.error(
+                    Status.Error(
                         DialogBoxModel(
                             DialogBoxModel.TYPE_ERROR,
                             response.code().toString(),
@@ -40,8 +40,8 @@ abstract class BaseRequestUseCase<T : BaseResponse, Params> :
                 )
             }
         } catch (e: Exception) {
-            baseResponseObserver.handleResponse(
-                error(
+            responseObserver.error(
+                Status.Error(
                     DialogBoxModel(
                         null,
                         null,
@@ -59,9 +59,9 @@ abstract class BaseRequestUseCase<T : BaseResponse, Params> :
         return networkCall(params)
     }
 
-    private fun <T : BaseResponse> error(dialogBoxModel: DialogBoxModel): Status<T> {
+    private fun <T : BaseResponse> error(dialogBoxModel: DialogBoxModel): Status {
         Timber.d(dialogBoxModel.message)
-        return Status.error(dialogBoxModel)
+        return Status.Error(dialogBoxModel)
     }
 
 }

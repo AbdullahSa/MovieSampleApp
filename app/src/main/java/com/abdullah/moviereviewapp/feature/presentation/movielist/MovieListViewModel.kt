@@ -26,7 +26,7 @@ class MovieListViewModel constructor(private val getMovieListUseCase: GetMovieLi
     private var sourceFactory = MovieListDataSourceFactory(
         getMovieListUseCase,
         this,
-        baseResponseObserver = observer
+        responseObserver = observer
     )
 
     private val config by lazy {
@@ -59,13 +59,13 @@ class MovieListViewModel constructor(private val getMovieListUseCase: GetMovieLi
             pagedListLiveData.removeObservers(lifecycleOwner)
         }
         sourceFactory = if (type == null) {
-            MovieListDataSourceFactory(getMovieListUseCase, this, baseResponseObserver = observer)
+            MovieListDataSourceFactory(getMovieListUseCase, this, responseObserver = observer)
         } else {
             MovieListDataSourceFactory(
                 getMovieListUseCase,
                 this,
                 type,
-                baseResponseObserver = observer
+                responseObserver = observer
             )
         }
         pagedListLiveData = LivePagedListBuilder<Int, MovieListItem>(sourceFactory, config).build()

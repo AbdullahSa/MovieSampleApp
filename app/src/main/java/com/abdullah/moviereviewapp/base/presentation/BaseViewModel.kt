@@ -13,8 +13,7 @@ import com.abdullah.moviereviewapp.base.navigation.Event
 import com.abdullah.moviereviewapp.base.navigation.defaultNavOptions
 
 open class BaseViewModel : ViewModel() {
-
-    var useCases: Array<BaseUseCase> = arrayOf()
+    var useCases = emptyArray<BaseUseCase>()
 
     private val dialogBoxMutableLiveData = MutableLiveData<DialogBoxModel>()
     val dialogBoxLiveData: LiveData<DialogBoxModel> get() = dialogBoxMutableLiveData
