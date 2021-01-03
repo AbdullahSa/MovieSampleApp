@@ -5,7 +5,7 @@ import androidx.paging.PageKeyedDataSource
 import com.abdullah.moviereviewapp.BuildConfig
 import com.abdullah.moviereviewapp.base.data.model.DialogBoxModel
 import com.abdullah.moviereviewapp.base.data.model.DialogButton
-import com.abdullah.moviereviewapp.base.data.network.BaseResponseObserver
+import com.abdullah.moviereviewapp.base.data.network.ResponseObserver
 import com.abdullah.moviereviewapp.base.data.network.Status
 import com.abdullah.moviereviewapp.feature.data.enum.CategoryType
 import com.abdullah.moviereviewapp.feature.data.response.Movie
@@ -22,7 +22,7 @@ class MovieListDataSource(
     private val getMovieListUseCase: GetMovieListUseCase,
     private val viewModel: MovieListViewModel,
     private val type: CategoryType = CategoryType.POPULAR,
-    private val baseResponseObserver: BaseResponseObserver<MovieListResponse>
+    private val responseObserver: ResponseObserver<MovieListResponse>
 ) : PageKeyedDataSource<Int, MovieListItem>() {
 
     @Suppress("UNREACHABLE_CODE")
@@ -31,7 +31,7 @@ class MovieListDataSource(
         callback: LoadInitialCallback<Int, MovieListItem>
     ) {
         viewModel.viewModelScope.launch {
-            baseResponseObserver.handleResponse(Status.loading(null))
+            responseObserver.loading(Status.Loading)
             val response = getMovieListUseCase.executeWithPaging(
                 GetMovieListUseCase.Params(
                     BuildConfig.CONSUMER_KEY,
@@ -41,9 +41,7 @@ class MovieListDataSource(
             if (response.isSuccessful) {
                 val body = response.body()
                 body?.let {
-                    baseResponseObserver.handleResponse(
-                        Status.success(it, it.dialogBoxes?.get(0))
-                    )
+                    responseObserver.success(Status.Success(it, it.dialogBoxes?.get(0)))
                 }
                 callback.onResult(
                     (body?.toViewEntity()?.results as MutableList<Movie.ViewEntity>).map {
@@ -60,8 +58,8 @@ class MovieListDataSource(
                     FIRST_PAGE + 1
                 )
             } else {
-                baseResponseObserver.handleResponse(
-                    error(
+                responseObserver.error(
+                    Status.Error(
                         DialogBoxModel(
                             DialogBoxModel.TYPE_ERROR,
                             response.code().toString(),
